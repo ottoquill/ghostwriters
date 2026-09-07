@@ -40,8 +40,6 @@ source words: 22,104   retold words: 0
 `python3 scripts/grid.py`. A cell is `done` when `out/<source>/<voice>.md`
 exists, `N/M` when N of M chapters are drafted, `.` when nothing is written.
 
-`voices/earnest.md` is currently a placeholder, not a voice.
-
 ## Adding a source
 
 ```bash
