@@ -87,6 +87,30 @@ Drafts land in `out/<source>/<voice>/NN.md`. Once every chapter has one,
 page crediting the source, its year, and its public-domain status. No original
 illustration is reproduced, from any edition, anywhere in this repository.
 
+## The check
+
+```
+python3 scripts/check.py
+```
+
+Exit 1 on anything a script can prove wrong: a voice file or a retelling that
+contains the name in `do_not_name`; output from a source whose `pd_status.us` is
+not `true`; a draft whose chapter heading is not its source's, verbatim; a book
+assembled before every chapter has a draft; a voice file missing a frontmatter
+field. A `Stop` hook runs it at the end of every Claude Code turn, so a session
+cannot end with the repo in a state the check rejects. The voice Checklist is
+judgment and stays with `/retell`; this is the part a script can hold.
+
+## Working with Claude Code
+
+`memory/` is what a session needs that the code does not say. `where-we-are.md`
+is loaded into every session — the arc, the decisions in force, the live
+defects, dated — and `MEMORY.md` indexes the smaller notes. The auto-memory
+system is pointed at this directory, so what one session learns is committed
+for the next. The rules under `.claude/rules/` are written without this
+project's nouns; `memory/`, `.claude/hooks/` and those rules can be copied into
+another repo as they are.
+
 ## Licences
 
 Three sets of terms, kept apart:

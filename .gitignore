@@ -3,3 +3,4 @@ __pycache__/
 *.epub
 *.pdf
 out/**/*.tmp
+.claude/settings.local.json
