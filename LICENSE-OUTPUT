@@ -1,0 +1,33 @@
+# Licence for the books
+
+This repository is under three different terms. The tooling is one thing, the
+source texts are another, and the retellings are a third.
+
+## `scripts/`, `.claude/`, `README.md`
+
+MIT. See [LICENSE](LICENSE).
+
+## `sources/`
+
+Public domain in the United States.
+
+Every text under `sources/` is reproduced from Project Gutenberg, which
+distributes only works in the US public domain, and each book's US status is
+recorded in its `book.yaml` as `pd_status.us`. No claim of copyright is made
+over anything in this directory, and none could be.
+
+Public-domain status is territorial. A book in the public domain in the United
+States may still be in copyright elsewhere, and `pd_status.uk` is recorded
+separately and defaults to `false`. Anyone redistributing these texts outside
+the United States is responsible for checking the law where they are.
+
+No illustration from any edition of any source is reproduced in this
+repository, in `sources/` or anywhere else.
+
+## `out/`
+
+Copyright © 2026 Otto Quill. All rights reserved.
+
+The retellings under `out/` are new works. They are not reproductions of their
+sources and they are not in the public domain. No part of `out/` may be copied,
+distributed, or used to train a model without permission.
