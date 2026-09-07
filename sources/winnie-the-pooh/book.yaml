@@ -1,0 +1,11 @@
+# Written by scripts/fetch.py. pd_status is a DEFAULT, not a finding --
+# check it by hand before generating anything from this source.
+title: "Winnie-the-Pooh"
+author: "A. A. Milne"
+illustrator: "Ernest H. Shepard"
+year: 1926
+gutenberg_id: 67098
+pd_status:
+  us: true
+  uk: false
+notes: "10 chapters, fetched from https://www.gutenberg.org/ebooks/67098.txt.utf-8. Distributed by Project Gutenberg, which publishes only works in the US public domain. UK status defaults to false and must be confirmed against the author's death date before any UK-facing use."
