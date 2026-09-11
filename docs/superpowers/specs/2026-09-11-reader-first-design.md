@@ -131,8 +131,45 @@ alone and flag the other two. If it cannot separate the corpus passage from
 the parody it cannot stand in for the reader chosen above, and the design
 returns here rather than proceeding.
 
+Run 2026-09-11, blind, one fresh subagent per passage. The corpus passage came
+back clean — "no stretches to quote", and a note that `another layer of fems`
+is an OCR slip and not a change in the sound. The parody came back with five
+findings, the first of them "the signature turned up past anything on the page
+— polysyndeton plus flat moral adjectives, the reputation rather than the
+prose", and the verdict that it "has the vocabulary and the sentence lengths
+but none of the eye". Milne's own prose came back identified as the storyteller
+being retold, undisguised, "the original book with a different filename". The
+proxy separates the three.
+
 Then chapter 1 of `winnie-the-pooh` × `earnest`, read by the owner, whose
 notes are the first real calibration of both the voice file and the reader.
+
+## Corrections found while implementing
+
+Two things in the design above were wrong, and the work found them.
+
+**The prohibitions list was stricter than the corpus.** The passage held out
+for the reader's validation — the trout at the dam — carries `making the same
+lovely arc` and `they were beautifully colored` in narration, and `It was a hot
+day, so I slit them all`. That is a rating adjective in narration, an `-ly`
+adverb modifying an adjective in narration, and a sentence giving the reason
+for an action: three things `earnest.md` banned outright and the design listed
+as prohibitions because the corpus supposedly had none of them. The commit that
+measured the corpus said so itself — seven in ten rating adjectives sit in
+dialogue, which leaves three in ten in narration. All three moved to Questions,
+with the corpus's own phrasing quoted in the voice file as the evidence. The
+reader, reading blind, flagged none of them and took the passage for the
+writer's own hand, which is the design working: a rule said no and a reader
+said yes, and the reader won.
+
+**A subagent cannot be named in a command's `allowed-tools`.** So `/retell`
+has no `allowed-tools` line at all now, which widens what the command may do;
+the hooks and `.claude/settings.json` still bound every write. The `reader`
+agent also cannot be dispatched by name from a session that started before the
+agent file existed, since the registry is read at launch, so the command
+carries a fallback: dispatch a general-purpose subagent with the body of
+`.claude/agents/reader.md` as its prompt. That is how the validation below was
+run.
 
 ## Out of scope
 

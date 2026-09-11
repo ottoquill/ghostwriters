@@ -12,15 +12,28 @@ scenes, the same characters, the same things happening in the same order, told
 by somebody who would never have told them that way.
 
 The retelling is done by Claude Code, and the thing that makes a cell work is
-not the model but the voice file. A voice is written down as rules that can be
-checked — a median sentence length, a ban on any dialogue tag but `said`, a
-prohibition on naming an emotion — because prose only moves along the axes a
-brief makes checkable and reverts to the house average everywhere else. A voice
-file never names the author it imitates. The name sits once in the frontmatter,
-in a field called `do_not_name`, so the prohibition carries its own test; the
-rules in the body have to do the work on their own. Telling a model to write
-like somebody gets you the model's impression of that somebody. Telling it that
-no sentence may exceed fourteen words gets you fourteen-word sentences.
+not the model but the voice file. A voice is written down as rules concrete
+enough to move prose — a median sentence length, a ban on any dialogue tag but
+`said`, a ration on naming an emotion — because prose only moves along the axes
+a brief makes concrete and reverts to the house average everywhere else. A
+voice file never names the author it imitates. The name sits once in the
+frontmatter, in a field called `do_not_name`, so the prohibition carries its
+own test; the rules in the body have to do the work on their own. Telling a
+model to write like somebody gets you the model's impression of that somebody.
+Telling it that no sentence may exceed fourteen words gets you fourteen-word
+sentences.
+
+Fourteen-word sentences are not the point, though, and the rest of the design
+exists to keep them from becoming it. A chapter is right when a reader who
+knows the author's books would take a page of it for the author's own, and
+nothing else is right. So every draft is read: first by an agent that sees a
+page and a half of real passages from those books and the draft, and nothing
+else — no rules, no checklist, no author's name — and quotes back every stretch
+where the draft stops sounding like the same hand; then by a person, once per
+cell, before the remaining chapters are written. The numbers in a voice file
+are measured ranges that say where the corpus sits. They mark passages worth
+rereading. No sentence is ever edited to move one, and the corpus itself falls
+outside several of them, book by book.
 
 In the line of Proust's *L'Affaire Lemoine*, Queneau's *Exercises in Style*,
 Hemingway's *The Torrents of Spring*, Frederick Crews's *The Pooh Perplex*, and
@@ -64,15 +77,25 @@ Copy [`voices/_template.md`](voices/_template.md) to `voices/<slug>.md` and fill
 in every section: Sentences, Words, Emotion and meaning, Description, Dialogue,
 Rhythm, Before / after, Checklist.
 
-Two things to get right. Every rule must be answerable yes or no by a reader
+Three things to get right. Every rule must be answerable yes or no by a reader
 with no memory of the file — "no adverb ending in `-ly`" is a rule, "lyrical" is
 not, and a section left vague is a section along which the prose will not move.
-And the author's name goes in the `do_not_name` frontmatter field and nowhere
-else, so the file can be checked against itself with `grep`.
+Every number must be a range measured across the corpus's own books, not an
+average turned into a ceiling: a voice file stricter than the writer produces
+chapters more uniform than any the writer wrote. And the author's name goes in
+the `do_not_name` frontmatter field and nowhere else, so the file can be checked
+against itself with `grep`.
 
-The Checklist at the bottom is the gate. `/retell` runs it against its own draft
-and fixes what it finds before returning, so a rule that is not on the checklist
-is a rule that is not enforced.
+Every voice also needs `touchstones/<slug>.md`: passages cut verbatim by script
+from the author's own public-domain books, naming neither author nor title.
+That file is the ear the drafts are judged against, and `check.py` fails a voice
+that has none.
+
+The Checklist at the bottom is two lists. **Prohibitions** are fixed on sight,
+and hold only what the measurement found the corpus effectively lacks.
+**Questions** are ranges and habits: a draft outside one gets reread, and if it
+reads right it stays and the voice file is what gets corrected. Neither list
+outranks the reader.
 
 ## Running a cell
 
@@ -82,10 +105,19 @@ is a rule that is not enforced.
 /retell winnie-the-pooh earnest --assemble
 ```
 
-Drafts land in `out/<source>/<voice>/NN.md`. Once every chapter has one,
-`--assemble` concatenates them into `out/<source>/<voice>.md` behind a title
-page crediting the source, its year, and its public-domain status. No original
-illustration is reproduced, from any edition, anywhere in this repository.
+Drafts land in `out/<source>/<voice>/NN.md`. Each one is read by the `reader`
+agent, revised where the reader says the sound goes wrong, read once more, and
+only then run against the voice's two lists. What the second reading still
+flags is reported rather than chased: a proxy consulted over and over is a
+metric again.
+
+The first draft of a cell stops there and waits to be read by a person. Once it
+has been, the source goes into the voice file's `human_read` field and the notes
+go into the rules; `check.py` fails a cell that holds a second draft before
+that. Once every chapter has one, `--assemble` concatenates them into
+`out/<source>/<voice>.md` behind a title page crediting the source, its year,
+and its public-domain status. No original illustration is reproduced, from any
+edition, anywhere in this repository.
 
 ## The check
 
@@ -97,9 +129,15 @@ Exit 1 on anything a script can prove wrong: a voice file or a retelling that
 contains the name in `do_not_name`; output from a source whose `pd_status.us` is
 not `true`; a draft whose chapter heading is not its source's, verbatim; a book
 assembled before every chapter has a draft; a voice file missing a frontmatter
-field. A `Stop` hook runs it at the end of every Claude Code turn, so a session
-cannot end with the repo in a state the check rejects. The voice Checklist is
-judgment and stays with `/retell`; this is the part a script can hold.
+field; a voice with no touchstones, or touchstones that do not declare
+`pd_us: true`; a cell holding a second draft when nothing records a person
+having read the first. A `Stop` hook runs it at the end of every Claude Code
+turn, so a session cannot end with the repo in a state the check rejects.
+
+Style is deliberately absent from that list. Whether a chapter sounds like the
+author is judgment, and it stays with the reader agent, the voice's two lists,
+and the person who reads the first chapter of a cell. What a script holds is
+everything else.
 
 ## Working with Claude Code
 

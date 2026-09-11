@@ -4,13 +4,23 @@ tagline: Short declaratives, plain nouns, feeling left out of the sentence
 era: 1920s American
 do_not_name: Ernest Hemingway
 corpus: 201,000 words measured -- The Sun Also Rises (1926), A Farewell to Arms (1929), Men Without Women (1927), in our time (1924)
+human_read:
 ---
 
-Every budget below is measured against the corpus named in the frontmatter, not
-guessed. Rates are given per 1,000 words so they can be checked against a
-chapter without arithmetic. Where the popular impression of this voice and the
-measurement disagree, the measurement wins — the impression is a parody, and
+Every number below is measured against the corpus named in the frontmatter,
+not guessed, and every number describes where that corpus sits. None of them
+is a target. The target is a reader who knows those books taking a page of
+this for one of them. The rules here are how a draft reaches that sound; the
+rates are for finding a passage worth rereading. Never write or cut a sentence
+to move a count — the corpus falls outside several of these ranges in one book
+or another, and a chapter written to the averages is more uniform than any
+chapter the author wrote. Where the popular impression of this voice and the
+measurement disagree, the measurement wins: the impression is a parody, and
 writing to it produces prose the corpus does not contain.
+
+Passages from the corpus are in `touchstones/earnest.md`. They are what the
+reader agent judges a draft against, and they are not read while drafting —
+the rules below are the brief, and lifted phrasing is the risk.
 
 ## Sentences
 
@@ -28,8 +38,9 @@ writing to it produces prose the corpus does not contain.
 - **`which`: at most 2 per chapter.** **`although`, `however`, `therefore`,
   `moreover`, `whereas`: zero.** **`having` + past participle: zero.**
 - `because` is allowed, up to **1 per 1,000 words**. It is not a banned word.
-- **Semicolons: at most 1 per 1,000 words.** Not zero. **Em dashes: at most 1
-  per 1,000 words.** Not zero.
+- **Semicolons: the corpus runs 0.35 to 0.85 per 1,000 words.** Not zero. **Em
+  dashes: 0.5 to 2.9 per 1,000.** Not zero, and one book runs nearly six times
+  another — this is a habit that varies by book, not a setting.
 - Active voice. The actor does the thing.
 
 ## Words
@@ -42,17 +53,22 @@ writing to it produces prose the corpus does not contain.
 - Repeat a key noun rather than reaching for a synonym. Never write `the elderly
   fisherman` to avoid writing `the old man` twice.
 - No inflated phrasing: `twelve miles`, not `a distance of twelve miles`.
-- **`-ly` adverbs: up to 5 per 1,000 words.** They are not banned and they are
-  not rare — the corpus runs about 5 per 1,000, the same as ordinary prose.
-  What is banned is what they attach to. In **narration**, an `-ly` adverb may
-  modify a verb (`walked slowly`, `looked carefully`, `finally stopped`) and may
-  **never modify an adjective** (`awfully cold`, `terribly good`). In
-  **dialogue**, no restriction.
+- **`-ly` adverbs: the corpus runs 4.8 to 5.6 per 1,000 words.** They are not
+  banned and they are not rare — that is the rate of ordinary prose. What
+  matters is what they attach to. In **narration** an `-ly` adverb ordinarily
+  modifies a verb (`walked slowly`, `looked carefully`, `finally stopped`).
+  Modifying an adjective is rare but not absent: the corpus has `they were
+  beautifully colored`. Once in a chapter is inside the corpus; as a habit
+  (`awfully cold`, `terribly good`) it is a different writer. In **dialogue**,
+  no restriction.
 - **Rating adjectives — `beautiful`, `splendid`, `gorgeous`, `magnificent`,
-  `terrible`, `wonderful`, `dreadful`, `lovely`, `awful` — are banned in
-  narration and unrestricted in dialogue.** Seven in ten of these belong to
-  characters. People of this era say `awfully nice` constantly; the narrator
-  never does.
+  `terrible`, `wonderful`, `dreadful`, `lovely`, `awful` — belong to
+  characters seven times in ten, and are unrestricted in dialogue.** The other
+  three in ten are the narrator's: the corpus has `making the same lovely arc`
+  and `they were beautifully colored` in narration. So narration is not free of
+  them. A narrator who rates things routinely is the wrong writer; a narrator
+  who does it once, over something being watched closely, is this one. People
+  of this era say `awfully nice` constantly.
 - Adjectives in narration give information, not a rating: `cold`, `wet`,
   `brown`, `empty`, `flat`, `gray`.
 - **`suddenly`: at most 1 per 2,000 words.**
@@ -108,7 +124,7 @@ writing to it produces prose the corpus does not contain.
 ## Rhythm
 
 - **Paragraphs run to a median of 2 sentences.** Mean under 3.
-- **35 to 40 out of every 100 paragraphs are a single sentence.** This is the
+- **36 to 43 out of every 100 paragraphs are a single sentence.** This is the
   ordinary texture, not a device saved for moments of weight.
 - The `and` chain carries motion and fatigue; the short sentence stops it. Put
   them next to each other on purpose.
@@ -138,31 +154,47 @@ and the narrator's verdict at the end.
 
 ## Checklist
 
-Run every item against the finished draft. Quote the offending sentence for each
-`no`, fix it, and run the list again.
+Two lists. They are run after the reader's pass and never in place of it: the
+reader hears the chapter, and these hold the few things a reader might let by.
 
-1. Is the median sentence length 7 words or fewer, and are ~70% of sentences
-   10 words or fewer?
-2. Are there more than 1 sentence per 1,000 words running past 40 words?
-3. Does `which` appear more than twice, or `although`, `however`, `therefore`,
-   `moreover`, or `having` + past participle appear at all?
-4. Do `-ly` adverbs exceed 5 per 1,000 words, and does any one modify an
-   adjective in narration?
-5. Does any dialogue tag other than `said` or `asked` appear?
-6. Does any tag carry an adverb, or contain a stage direction?
-7. Does a rating adjective (`beautiful`, `terrible`, `lovely`, `wonderful`,
-   `splendid`, `awful`) appear outside dialogue?
-8. Are emotions named more than twice per 1,000 words, or named at the scene's
-   heaviest moment?
-9. Does `he realized`, `she understood`, `it occurred to him`, or `she felt a
-   wave of` appear anywhere?
-10. Does any sentence explain a character's motive, or comment on an event after
-    it?
-11. Do similes exceed 1 per 1,000 words, or does any compare a physical thing to
-    an abstraction?
-12. Does any paragraph end on an abstract noun, or any scene end on reflection?
-13. Are 35–40% of paragraphs a single sentence?
-14. Is the `do_not_name` value anywhere in the draft?
-15. Does the draft contain a scene, character, or joke absent from the source, or
-    is any named character from the source chapter missing?
-16. Does the draft describe or explain its own style?
+### Prohibitions — fix every hit
+
+Each of these is effectively absent from the 201,000 words measured, or is a
+rule of the repository. Quote the offending sentence, fix it, look again.
+
+1. Does any dialogue tag other than `said` or `asked` appear?
+2. Does any tag carry an adverb, or contain a stage direction?
+3. Does `although`, `however`, `therefore`, `moreover`, or `having` + past
+   participle appear at all?
+4. Does `he realized`, `she understood`, `it occurred to him`, `he knew then`,
+   or `she felt a wave of` appear anywhere?
+5. Is the `do_not_name` value anywhere in the draft?
+6. Does the draft contain a scene, character, or joke absent from the source,
+   or is any named character from the source chapter missing?
+7. Does the draft describe or explain its own style?
+
+### Questions — reread the passage, decide, report
+
+A draft outside one of these is a question about that passage, not a fault.
+Reread the stretch. If it reads right it stays, and the mismatch goes in the
+report as a defect in this file. Never edit a sentence to move a number: the
+corpus itself sits outside several of these, book by book.
+
+8. Is the median sentence length near 7 words, with roughly 70% at 10 words or
+   fewer and about a third at 5 or fewer?
+9. Does more than about 1 sentence per 1,000 words run past 40?
+10. Do `-ly` adverbs sit far outside 4.8 to 5.6 per 1,000, or does more than
+    one modify an adjective in narration?
+11. Does the narrator reach for rating adjectives more than occasionally?
+    Three in ten of the corpus's are the narrator's, so one is not a finding.
+12. Does `which` appear more than about twice?
+13. Are emotions named more than about twice per 1,000 words, or named at the
+    scene's heaviest moment?
+14. Do similes exceed about 1 per 1,000 words, or does any compare a physical
+    thing to an abstraction?
+15. Are single-sentence paragraphs far outside 36 to 43 in every 100?
+16. Does a paragraph end on an abstract noun, or a scene end on reflection, a
+    summary, or the narrator's verdict?
+17. Does any sentence explain a character's reasons to the reader? A bare
+    physical cause is in the corpus — `It was a hot day, so I slit them all` —
+    and an account of why somebody felt or decided something is not.

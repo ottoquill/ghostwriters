@@ -11,8 +11,15 @@ What it checks:
                        the filename; the body never contains the do_not_name
                        value or its surname. A file starting with _ is a
                        template and is skipped.
+    touchstones/<v>.md exists for every voice and declares pd_us: true. These
+                       are the verbatim passages a draft is read against, so
+                       they are copied text and the US public-domain status of
+                       what they were copied from has to be confirmed.
     sources/<s>/       book.yaml exists; every chapters/NN.md opens on an H1.
     out/<s>/           the source exists and its pd_status.us is true.
+    out/<s>/<v>/       holds more than one draft only once the voice's
+                       human_read lists the source: a person reads the first
+                       draft of a cell before the rest are written.
     out/<s>/<v>/NN.md  the voice exists; there is a source chapter NN.md; the
                        H1 is the source's, verbatim; no do_not_name.
     out/<s>/<v>.md     exists only once every chapter has a draft; no
@@ -24,12 +31,16 @@ grid.py reports; this gates. The voice Checklist is judgment and stays with
 """
 
 import argparse
+import collections
 import os
 import re
 import sys
 
 MD = ".md"
 VOICE_FIELDS = ("name", "tagline", "era", "do_not_name")
+
+# read: the sources whose first draft a person has read, from human_read.
+Voice = collections.namedtuple("Voice", "patterns read")
 
 
 def read(path):
@@ -100,8 +111,25 @@ def first_h1(text):
     return None
 
 
+def check_touchstones(root, slug, problems):
+    """A voice is judged by ear against real passages; they must be US public domain."""
+    path = "touchstones/%s%s" % (slug, MD)
+    full = os.path.join(root, "touchstones", slug + MD)
+    if not os.path.isfile(full):
+        problems.append(
+            "%s: missing -- a voice with no passages has nothing to be read against" % path
+        )
+        return
+    fields, _ = frontmatter(read(full))
+    if fields.get("pd_us", "").strip().strip("\"'").lower() != "true":
+        problems.append(
+            "%s: pd_us is not true -- no passage may be copied from a book whose "
+            "US public-domain status is unconfirmed" % path
+        )
+
+
 def check_voices(root, problems):
-    """Return {slug: patterns} for every real voice, reporting defects."""
+    """Return {slug: Voice} for every real voice, reporting defects."""
     voices = {}
     base = os.path.join(root, "voices")
     if not os.path.isdir(base):
@@ -123,7 +151,9 @@ def check_voices(root, problems):
         hit = names_author(body, patterns)
         if hit:
             problems.append("%s: names the author (%r)" % (path, hit))
-        voices[slug] = patterns
+        check_touchstones(root, slug, problems)
+        read_by_hand = {s.strip() for s in fields.get("human_read", "").split(",") if s.strip()}
+        voices[slug] = Voice(patterns, read_by_hand)
     return voices
 
 
@@ -178,7 +208,14 @@ def check_out(root, voices, sources, problems):
                 if voice not in voices:
                     problems.append("%s: no voice '%s'" % (vpath, voice))
                     continue
-                for fn in sorted(f for f in os.listdir(epath) if f.endswith(MD)):
+                chapters = sorted(f for f in os.listdir(epath) if f.endswith(MD))
+                if len(chapters) > 1 and slug not in voices[voice].read:
+                    problems.append(
+                        "%s: %d drafts, but nothing records a person reading the first -- "
+                        "add '%s' to human_read in voices/%s%s once it has been read"
+                        % (vpath, len(chapters), slug, voice, MD)
+                    )
+                for fn in chapters:
                     drafts += 1
                     dpath = "%s/%s" % (vpath, fn)
                     text = read(os.path.join(epath, fn))
@@ -193,7 +230,7 @@ def check_out(root, voices, sources, problems):
                             problems.append(
                                 "%s: H1 differs from source (%r, source has %r)" % (dpath, have, want)
                             )
-                    hit = names_author(text, voices[voice])
+                    hit = names_author(text, voices[voice].patterns)
                     if hit:
                         problems.append("%s: names the author (%r)" % (dpath, hit))
             elif entry.endswith(MD):
@@ -212,7 +249,7 @@ def check_out(root, voices, sources, problems):
                         "%s: assembled with %d of %d chapters drafted"
                         % (apath, len(done), len(files))
                     )
-                hit = names_author(read(epath), voices[voice])
+                hit = names_author(read(epath), voices[voice].patterns)
                 if hit:
                     problems.append("%s: names the author (%r)" % (apath, hit))
     return drafts, assembled

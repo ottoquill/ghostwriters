@@ -8,9 +8,18 @@ paths: ["out/**/*.md"]
 Everything under `out/` is a retelling of a source book in one voice. While
 writing one:
 
-- **The active voice file is the only style authority.** `voices/<voice>.md`
-  decides sentence length, vocabulary, dialogue, rhythm. Nothing else does —
-  not the source's own style, not your default register, not what reads well.
+- **The target is a reader.** A retelling is right when someone who knows the
+  author's books would take a page of it for the author's own. That is settled
+  by ear — by the reader agent, and then by a person — never by counting.
+- **The voice file is how a draft gets there, not what it aims at.**
+  `voices/<voice>.md` decides sentence length, vocabulary, dialogue and rhythm,
+  and nothing else does: not the source's own style, not your default register.
+  Its rules are means and its numbers describe where the corpus sits. No
+  sentence is ever written or edited to move a count.
+- **Where a rule and the reading disagree, the reading wins.** Rewrite what the
+  reader flagged. Keep a sentence that reads right and sits outside a range,
+  and report the disagreement: it is a defect in the voice file, and the voice
+  file is what gets corrected.
 - **Never name the author the voice imitates.** The name is in the voice file's
   `do_not_name` frontmatter field so you can check for it. It does not belong
   in the prose, a heading, a title page, or a note.

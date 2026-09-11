@@ -9,6 +9,7 @@ name: earnest
 tagline: Short declaratives, plain nouns
 era: 1920s American
 do_not_name: Ernest Hemingway
+human_read: pooh
 ---
 
 ## Sentences
@@ -18,6 +19,23 @@ do_not_name: Ernest Hemingway
 ## Checklist
 
 1. Is every sentence under 20 words?
+"""
+
+# Verbatim passages a draft is read against. No author, no title: the id and
+# the anchors are what makes a passage checkable against its original.
+TOUCHSTONES = """\
+---
+voice: earnest
+pd_us: true
+provenance: Project Gutenberg ebook 61085
+---
+
+## 1
+
+<!-- gutenberg 61085 | They shot ... his knees. -->
+
+They shot the six cabinet ministers at half-past six in the morning
+against the wall of a hospital.
 """
 
 # A template has placeholder frontmatter, a name that is not its filename, and
@@ -61,6 +79,7 @@ class CheckTest(unittest.TestCase):
         self.root = self._tmp.name
         write(self.root, "voices/earnest.md", VOICE)
         write(self.root, "voices/_template.md", TEMPLATE)
+        write(self.root, "touchstones/earnest.md", TOUCHSTONES)
         write(self.root, "sources/pooh/book.yaml", BOOK.format(us="true"))
         write(self.root, "sources/pooh/chapters/01.md", CH1)
         write(self.root, "sources/pooh/chapters/02.md", CH2)
@@ -138,6 +157,47 @@ class CheckTest(unittest.TestCase):
     def test_draft_for_unknown_source_fails(self):
         write(self.root, "out/piglet/earnest/01.md", CH1)
         self.assertProblem("out/piglet: no source 'piglet'")
+
+    # touchstones
+
+    def test_voice_without_touchstones_fails(self):
+        os.remove(os.path.join(self.root, "touchstones/earnest.md"))
+        self.assertProblem("touchstones/earnest.md: missing")
+
+    def test_touchstones_without_pd_us_fails(self):
+        write(self.root, "touchstones/earnest.md", TOUCHSTONES.replace("pd_us: true\n", ""))
+        self.assertProblem("touchstones/earnest.md: pd_us is not true")
+
+    def test_touchstones_with_pd_us_false_fails(self):
+        write(self.root, "touchstones/earnest.md", TOUCHSTONES.replace("pd_us: true", "pd_us: false"))
+        self.assertProblem("touchstones/earnest.md: pd_us is not true")
+
+    def test_template_needs_no_touchstones(self):
+        self.assertEqual(self.problems(), [])
+
+    # a person reads the first draft of a cell before the rest are written
+
+    def test_one_draft_needs_no_human_read(self):
+        write(self.root, "voices/earnest.md", VOICE.replace("human_read: pooh\n", ""))
+        write(self.root, "out/pooh/earnest/01.md", CH1)
+        self.assertEqual(self.problems(), [])
+
+    def test_second_draft_without_human_read_fails(self):
+        write(self.root, "voices/earnest.md", VOICE.replace("human_read: pooh\n", ""))
+        write(self.root, "out/pooh/earnest/01.md", CH1)
+        write(self.root, "out/pooh/earnest/02.md", CH2)
+        self.assertProblem("out/pooh/earnest: 2 drafts, but nothing records a person reading the first")
+
+    def test_second_draft_with_human_read_passes(self):
+        write(self.root, "out/pooh/earnest/01.md", CH1)
+        write(self.root, "out/pooh/earnest/02.md", CH2)
+        self.assertEqual(self.problems(), [])
+
+    def test_human_read_of_another_source_does_not_count(self):
+        write(self.root, "voices/earnest.md", VOICE.replace("human_read: pooh", "human_read: piglet"))
+        write(self.root, "out/pooh/earnest/01.md", CH1)
+        write(self.root, "out/pooh/earnest/02.md", CH2)
+        self.assertProblem("out/pooh/earnest: 2 drafts, but nothing records a person reading the first")
 
     # assembled
 

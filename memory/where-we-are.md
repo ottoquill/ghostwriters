@@ -15,10 +15,20 @@ merged to `main`. One source (`winnie-the-pooh`, 10 chapters, 22,104 words),
 one voice (`earnest`, written from 201,000 measured corpus words), zero cells
 started. Nothing under `out/`.
 
-**What moves next:** the reader-first redesign — a model reader grounded in
-real corpus passages, the checklist demoted beneath it, a gate on the owner's
-read of chapter 1 — designed in conversation 2026-09-11, pending approval.
-Then the first cell, `/retell winnie-the-pooh earnest`.
+The reader-first design was implemented 2026-09-11: `touchstones/earnest.md`
+(6 passages, 1,387 words, cut by script from Gutenberg 61085/67138/69683/75201),
+`.claude/agents/reader.md`, `/retell` reordered around the reader's pass, the
+voice checklist split into Prohibitions and Questions, and two new gates in
+`check.py` (27 tests green). The reader was validated on three probes before
+anything was wired up: it passed a held-out corpus passage, called the
+heightened parody "the reputation rather than the prose", and identified the
+source's own prose as the storyteller being retold.
+
+**What moves next:** the first cell, `/retell winnie-the-pooh earnest`. It
+needs a session started after 2026-09-11, because the agent registry is read at
+launch and a session older than `.claude/agents/reader.md` cannot dispatch the
+`reader` by name (the command carries a fallback). Chapter 1 then waits to be
+read; what that read says about the voice file is the point of it.
 
 ## Decisions in force
 
